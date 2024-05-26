@@ -65,6 +65,12 @@ void SandboxLayer::OnEnable()
 	camera->position = { 0.0f, 0.0f, 10.0f };
 	camera->UpdateCameraVectors();
 
+    // Camera Controller
+    m_camera_controller = YNEW CameraController;
+    m_camera_controller->AttachCamera(camera);
+    m_camera_controller->SetMovementSpeed(10.0f);
+    m_camera_controller->SetMouseSensitivity(0.5f);
+
     // Lights
 	Ref<yoyo::DirectionalLight> dir_light = CreateRef<yoyo::DirectionalLight>();
 	dir_light->color = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -92,6 +98,7 @@ void SandboxLayer::OnDisable()
 
 void SandboxLayer::OnUpdate(float dt)
 {
+    m_camera_controller->Update(dt);
 }
 
 void SandboxLayer::SendRenderPacket(yoyo::RenderPacket* rp)
@@ -103,7 +110,7 @@ class Sandbox : public yoyo::Application
 {
 public:
     Sandbox()
-        : yoyo::Application({ "Sandbox", 0, 0, 1920, 1080 })
+        : yoyo::Application({ "Sandbox", 0, 0, 720, 480})
     {
         PushLayer(YNEW SandboxLayer(this));
     }

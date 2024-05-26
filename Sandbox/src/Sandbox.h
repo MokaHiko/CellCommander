@@ -2,6 +2,8 @@
 
 #include <Core/Layer.h>
 
+#include "CameraController.h"
+
 namespace yoyo
 {
     class RendererLayer;
@@ -27,6 +29,10 @@ public:
 protected:
     void SendRenderPacket(yoyo::RenderPacket* rp);
 private:
+    // Scene
+    CameraController* m_camera_controller;
+private:
+    // Core
     yoyo::RendererLayer* m_renderer_layer;
     yoyo::Application* m_app;
 };

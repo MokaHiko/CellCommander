@@ -4,6 +4,9 @@ project(Sandbox VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(${PROJECT_NAME}
+	src/CameraController.h
+	src/CameraController.cpp
+
 	src/Sandbox.h
 	src/Sandbox.cpp
 )
