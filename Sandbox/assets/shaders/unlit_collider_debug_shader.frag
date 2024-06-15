@@ -49,5 +49,6 @@ void main() {
   // vec3 ambient = vec3(0.15f);
   // vec4 final_color = vec4(0.0f);
 
-  frag_color = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+  //frag_color = vec4(1.0f, 1.0f, 1.0f, 1.0f) * (v_color.xyz, 1.0f);
+  frag_color = vec4(v_color.xyz, 1.0f);
 }

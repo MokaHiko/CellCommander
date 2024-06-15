@@ -10,6 +10,10 @@ cd /D "%~dp0"
 "%VULKAN_SDK%/bin/glslc.exe" offscreen_skinned_shadow_shader.vert -o offscreen_skinned_shadow_shader.vert.spv
 
 "%VULKAN_SDK%/bin/glslc.exe" unlit_instanced_shader.vert -o unlit_instanced_shader.vert.spv
+
+"%VULKAN_SDK%/bin/glslc.exe" unlit_point_shader.vert -o unlit_point_shader.vert.spv
+"%VULKAN_SDK%/bin/glslc.exe" unlit_point_shader.frag -o unlit_point_shader.frag.spv
+
 "%VULKAN_SDK%/bin/glslc.exe" unlit_particle_instanced_shader.vert -o unlit_particle_instanced_shader.vert.spv
 "%VULKAN_SDK%/bin/glslc.exe" unlit_particle_shader.frag -o unlit_particle_shader.frag.spv
 

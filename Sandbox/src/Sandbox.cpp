@@ -41,7 +41,6 @@ void SandboxLayer::OnEnable()
     // Load assets
     Ref<yoyo::Shader> default_lit = yoyo::ResourceManager::Instance().Load<yoyo::Shader>("lit_shader");
     Ref<yoyo::Shader> default_lit_instanced = yoyo::ResourceManager::Instance().Load<yoyo::Shader>("lit_instanced_shader");
-    Ref<yoyo::Shader> skinned_lit = yoyo::ResourceManager::Instance().Load<yoyo::Shader>("skinned_lit_shader");
 
     Ref<yoyo::Material> default_material = yoyo::Material::Create(default_lit, "default_material");
     Ref<yoyo::Texture> default_texture = yoyo::ResourceManager::Instance().Load<yoyo::Texture>("assets/textures/prototype_512x512_white.yo");
@@ -66,10 +65,9 @@ void SandboxLayer::OnEnable()
 	camera->UpdateCameraVectors();
 
     // Camera Controller
-    m_camera_controller = YNEW CameraController;
-    m_camera_controller->AttachCamera(camera);
-    m_camera_controller->SetMovementSpeed(10.0f);
-    m_camera_controller->SetMouseSensitivity(0.5f);
+    m_camera_controller.AttachCamera(camera);
+    m_camera_controller.SetMovementSpeed(10.0f);
+    m_camera_controller.SetMouseSensitivity(0.5f);
 
     // Lights
 	Ref<yoyo::DirectionalLight> dir_light = CreateRef<yoyo::DirectionalLight>();
@@ -98,7 +96,7 @@ void SandboxLayer::OnDisable()
 
 void SandboxLayer::OnUpdate(float dt)
 {
-    m_camera_controller->Update(dt);
+    m_camera_controller.Update(dt);
 }
 
 void SandboxLayer::SendRenderPacket(yoyo::RenderPacket* rp)
@@ -110,7 +108,7 @@ class Sandbox : public yoyo::Application
 {
 public:
     Sandbox()
-        : yoyo::Application({ "Sandbox", 0, 0, 720, 480})
+        : yoyo::Application({ "Sandbox", 0, 0, 1920, 1080})
     {
         PushLayer(YNEW SandboxLayer(this));
     }

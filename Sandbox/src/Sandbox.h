@@ -30,7 +30,7 @@ protected:
     void SendRenderPacket(yoyo::RenderPacket* rp);
 private:
     // Scene
-    CameraController* m_camera_controller;
+    CameraController m_camera_controller;
 private:
     // Core
     yoyo::RendererLayer* m_renderer_layer;
