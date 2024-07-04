@@ -22,9 +22,14 @@ cd /D "%~dp0"
 "%VULKAN_SDK%/bin/glslc.exe" full_screen_shader.vert -o full_screen_shader.vert.spv
 "%VULKAN_SDK%/bin/glslc.exe" blit_shader.frag -o blit_shader.frag.spv
 
+"%VULKAN_SDK%/bin/glslc.exe" skybox_shader.vert -o skybox_shader.vert.spv
+"%VULKAN_SDK%/bin/glslc.exe" skybox_shader.frag -o skybox_shader.frag.spv
+
 @REM Debug Shaders
 "%VULKAN_SDK%/bin/glslc.exe" lit_skinned_debug_shader.vert -o lit_skinned_debug_shader.vert.spv
 "%VULKAN_SDK%/bin/glslc.exe" lit_skinned_debug_shader.frag -o lit_skinned_debug_shader.frag.spv
 
 "%VULKAN_SDK%/bin/glslc.exe" unlit_collider_debug_shader.vert -o unlit_collider_debug_shader.vert.spv
 "%VULKAN_SDK%/bin/glslc.exe" unlit_collider_debug_shader.frag -o unlit_collider_debug_shader.frag.spv
+
+"%VULKAN_SDK%/bin/glslc.exe" unlit_outline_shader.vert -o unlit_outline_shader.vert.spv

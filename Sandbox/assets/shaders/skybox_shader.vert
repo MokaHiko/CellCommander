@@ -2,26 +2,29 @@
 
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec3 color;
+
 layout(location = 2) in vec3 normal;
 layout(location = 3) in vec2 uv;
+
 layout(location = 4) in vec3 tangent;
 
 layout(location = 0) out vec3 v_position_world_space;
 layout(location = 1) out vec3 v_color;
-layout(location = 2) out vec3 v_normal_world_space;
-layout(location = 3) out vec2 v_uv;
+layout(location = 2) out vec2 v_uv;
 
-struct ObjectData 
-{
-	mat4 model_matrix;
-  vec4 color;
-};
+layout(location = 3) out vec3 v_frag_direction;
 
 struct DirectionalLight {
   mat4 view_proj;
 
   vec4 color;
   vec4 direction;
+};
+
+struct ObjectData 
+{
+	mat4 model_matrix;
+  vec4 color;
 };
 
 layout(set = 0, binding = 0) uniform SceneData {
@@ -51,9 +54,8 @@ void main()
 
 	v_uv = uv;
 
-	// v_normal_world_space = normalize(mat3(model_matrix) * normal); // For uniform scaled objects
-	v_normal_world_space = normalize(mat3(transpose(inverse(model_matrix))) * normal); 
+  v_frag_direction = position;
 
-  // // TODO: Specifiy which dir light pass
-	gl_Position = dir_lights[0].view_proj * vec4(v_position_world_space, 1.0f);
+  vec4 out_pos = proj * mat4(mat3(view)) * vec4(position, 1.0f);
+	gl_Position = out_pos.xyww;
 }

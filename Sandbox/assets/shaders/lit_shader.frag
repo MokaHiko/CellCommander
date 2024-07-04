@@ -8,6 +8,7 @@ layout(location = 2) in vec3 v_normal_world_space;
 layout(location = 3) in vec2 v_uv;
 
 layout(location = 4) in vec4 v_position_light_space;
+layout(location = 5) in mat3 v_tbn_matrix;
 
 struct DirectionalLight {
   mat4 view_proj;
@@ -31,10 +32,7 @@ layout(std140, set = 0, binding = 1) readonly buffer DirectionalLights {
 };
 
 layout(set = 0, binding = 4) uniform sampler2D shadow_map;
-
-// Descriptor set 1 is reserved for texture information
-layout(set = 1, binding = 0) uniform sampler2D main_texture;
-layout(set = 1, binding = 1) uniform sampler2D specular_texture;
+layout(set = 1, binding = 0) uniform sampler2D material_textures[];
 
 // Descriptor set 2 is reserved for public material properties
 layout(set = 2, binding = 0) uniform Material {
@@ -46,7 +44,10 @@ vec4 CalculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 view_di
 float CalculateShadows(vec4 frag_position_light_space, vec3 normal, vec3 light_dir);
 
 void main() {
-  vec3 normal = normalize(v_normal_world_space);
+  vec3 normal = texture(material_textures[2], v_uv).rgb;
+  normal = normal * 2.0f - 1.0;
+  normal = normalize(v_tbn_matrix * normal);
+
   vec3 view_dir = normalize(v_position_world_space);
 
   vec3 ambient = vec3(0.15f);
@@ -60,7 +61,7 @@ void main() {
   // Shadow
   float shadow = (1 - CalculateShadows(v_position_light_space, normal, -dir_lights[0].direction.xyz));
 
-  frag_color = vec4(ambient, 0.0f) + (shadow * final_color); 
+  frag_color = vec4(ambient, 0.0f) + (shadow * final_color);
 }
 
 vec4 CalculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 view_dir) {
@@ -68,11 +69,12 @@ vec4 CalculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 view_di
 
   float diff_factor = max(dot(normal, light_dir), 0.25f);
   vec4 diffuse = diff_factor * light.color;
-  diffuse *= texture(main_texture, v_uv) * diffuse_color;
+  diffuse *= texture(material_textures[0], v_uv) * diffuse_color;
 
   vec3 reflect_dir = reflect(light_dir.xyz, normal);
 	float specular_factor = pow(max(dot(view_dir, reflect_dir), 0.5f), 32);
-  vec4 specular = specular_factor * light.color * texture(specular_texture, v_uv) * specular_color;
+
+  vec4 specular = specular_factor * light.color * specular_color;
 
   return vec4(diffuse.xyz + specular.xyz, 1.0f);
 }

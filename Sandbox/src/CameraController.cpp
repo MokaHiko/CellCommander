@@ -3,6 +3,7 @@
 #include "CameraController.h"
 
 #include <Input/Input.h>
+#include <Core/Assert.h>
 
 using namespace yoyo;
 
