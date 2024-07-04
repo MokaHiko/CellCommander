@@ -44,9 +44,6 @@ To update your project to the latest version of YoYo you can use the following c
 ```
 	git submodule update YoYo
 ```
-
-
-
 </ol>
 
 ### Features 
